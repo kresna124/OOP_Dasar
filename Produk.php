@@ -1,6 +1,6 @@
 <?php 
 
-class Produk{
+abstract class Produk{
 	private $judul,
 		    $penulis,
 		    $penerbit,
@@ -55,7 +55,9 @@ class Produk{
 		return "$this->penulis,$this->penerbit";
 	}
 	// ===================================================================
-	public function getInfoProduk(){
+	abstract public function getInfoProduk();
+	// ===================================================================
+	public function getInfo(){
 		$str = "{$this->judul} | {$this->getLabel()}(Rp.{$this->harga})";
 		return $str;
 	}
@@ -72,7 +74,7 @@ class Komik extends Produk{
 	}
 	// ===================================================================
 	public function getInfoProduk(){
-		$str = "komik :". parent::getInfoProduk()."- {$this->jmlHalaman} Halaman.";
+		$str = "komik :". $this->getInfo()."- {$this->jmlHalaman} Halaman.";
 		return $str;
 	}
 
@@ -90,7 +92,7 @@ class game extends Produk{
 
 	// ===================================================================
 	public function getInfoProduk(){
-		$str = "game :". parent::getInfoProduk()."- {$this->waktuMain} jam.";
+		$str = "game :". $this->getInfo()."- {$this->waktuMain} jam.";
 		return $str;
 	}
 	
@@ -98,8 +100,17 @@ class game extends Produk{
 
 // ===================================================================
 class CetakInfoProduk{
-	public function cetak( Produk $Produk ){
-		$str = "{$Produk->judul} | {$Produk->getLabel()}(Rp.{$Produk->harga})"; 
+	public $daftarProduk = array();
+	// ===================================================================
+	public function tambahProduk(Produk $Produk){
+		$this->daftarProduk[] = $Produk;
+	}
+	// ===================================================================
+	public function cetak(  ){
+		$str = "DAFTAR PRODUK : <br>"; 
+		foreach ($this ->daftarProduk as $p) {
+			$str .= "-{$p->getInfoProduk()} <br>";
+		}
 		return $str;
 	}
 }
@@ -108,21 +119,7 @@ $Produk3 = new komik("naruto","masashi kishimoto","jump",30000 , 100);
 
 $Produk4 = new game("uncharted","neil druckman","sony computer",2530000 ,50);
 
-
-// echo "komik : " .$Produk3->getLabel();
-// echo "<br>";
-// echo "game : " .$Produk4->getLabel();
-// echo "<br>";
-// $infoProduk1 = new CetakInfoProduk();
-// echo $infoProduk1->cetak($Produk3); 
-
-echo $Produk3->getInfoProduk();
-echo "<br>";
-echo $Produk4->getInfoProduk();
-echo "<hr>";
-
-$Produk4->setDiskon(50);
-echo $Produk4->getHarga();
-echo "<hr>";
-
-echo $Produk3->getJudul();
+$CetakProduk =  new CetakInfoProduk();
+$CetakProduk->tambahProduk($Produk3);
+$CetakProduk->tambahProduk($Produk4);
+echo $CetakProduk->cetak();
