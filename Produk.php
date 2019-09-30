@@ -6,35 +6,40 @@ class Produk{
 		   $penerbit,
 		   $harga,
 		   $jmlHalaman,
-		   $waktuMain,
-		   $tipe;
+		   $waktuMain;
 
 	
-	public function __construct($judul , $penulis , $penerbit , $harga = 0, $jmlHalaman = 0, $waktuMain = 0, $tipe){
+	public function __construct($judul , $penulis , $penerbit , $harga = 0, $jmlHalaman = 0, $waktuMain = 0){
 		$this->judul = $judul;
 		$this->penulis = $penulis;
 		$this->penerbit = $penerbit;
 		$this->harga = $harga;
 		$this->jmlHalaman = $jmlHalaman;
 		$this->waktuMain = $waktuMain;
-		$this->tipe = $tipe;
 	}
 	public function getLabel(){
 		return "$this->penulis,$this->penerbit";
 	}
-	public function getInfoLengkap(){
-		$str = "{$this->tipe} :{$this->judul} | {$this->getLabel()}(Rp.{$this->harga})";
-		
-		if ($this->tipe == "komik") {
-			$str .=  "- {$this->jmlHalaman} Halaman";
-
-		}else if ($this->tipe == "game") {
-			$str .= " ~ {$this->waktuMain} jam";
-		}
+	public function getInfoProduk(){
+		$str = "{$this->judul} | {$this->getLabel()}(Rp.{$this->harga})";
 		return $str;
 	}
 
 }
+class Komik extends Produk{
+	public function getInfoProduk(){
+		$str = "komik :{$this->judul} | {$this->getLabel()}(Rp.{$this->harga})- {$this->jmlHalaman} Halaman.";
+		return $str;
+	}
+
+}
+class game extends Produk{
+	public function getInfoProduk(){
+		$str = "game :{$this->judul} | {$this->getLabel()}(Rp.{$this->harga})- {$this->waktuMain} jam.";
+		return $str;
+	}
+}
+
 
 class CetakInfoProduk{
 	public function cetak( Produk $Produk ){
@@ -43,9 +48,9 @@ class CetakInfoProduk{
 	}
 }
 
-$Produk3 = new Produk("naruto","masashi kishimoto","jump",30000 , 100,0, "komik");
+$Produk3 = new komik("naruto","masashi kishimoto","jump",30000 , 100,0, "komik");
 
-$Produk4 = new Produk("uncharted","neil druckman","sony computer",2530000 ,0,50, "game");
+$Produk4 = new game("uncharted","neil druckman","sony computer",2530000 ,0,50, "game");
 
 
 // echo "komik : " .$Produk3->getLabel();
@@ -55,6 +60,6 @@ $Produk4 = new Produk("uncharted","neil druckman","sony computer",2530000 ,0,50,
 // $infoProduk1 = new CetakInfoProduk();
 // echo $infoProduk1->cetak($Produk3); 
 
-echo $Produk3->getInfoLengkap();
+echo $Produk3->getInfoProduk();
 echo "<br>";
-echo $Produk4->getInfoLengkap();
+echo $Produk4->getInfoProduk();
