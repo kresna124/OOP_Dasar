@@ -1,12 +1,14 @@
 <?php 
 
-class Produk(){
-	public $judul = judul,
-		   $penulis = penulis,
-		   $penerbit= penerbit,
+class Produk{
+
+	public $judul = "judul",
+		   $penulis = "penulis",
+		   $penerbit= "penerbit",
 		   $harga=0;
-	public function sayHello(){
-		return "Hello World";
+
+	public function getLabel(){
+		return "$this->penuli,$this->penerbit";
 	}
 }
 
@@ -19,14 +21,22 @@ class Produk(){
 // $Produk2->TambahProperti ="hahahaha";
 // var_dump($Produk2);
 $Produk3 = new Produk();
-$Produk3->$judul = "naruto";
-$Produk3->$penuli = "masashi kishimoto";
-$Produk3->$penerbit = "jump";
-$Produk3->$harga = 30000;
+$Produk3->judul = "naruto";
+$Produk3->penuli = "masashi kishimoto";
+$Produk3->penerbit = "jump";
+$Produk3->harga = 30000;
 
-echo "komik : $Produk3->penuli,$Produk3->penerbit";
+$Produk4 = new Produk();
+$Produk4->judul = "uncharted";
+$Produk4->penuli = "neil druckman";
+$Produk4->penerbit = "sony computer";
+$Produk4->harga = 2530000;
+
+
+
+echo "komik : " .$Produk3->getLabel();
 echo "<br>";
-echo "$Produk3->sayHello()";
+echo "game : " .$Produk4->getLabel();
 
 
  ?>
