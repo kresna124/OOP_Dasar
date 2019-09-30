@@ -4,53 +4,71 @@ class Produk{
 	public $judul,
 		   $penulis,
 		   $penerbit,
-		   $harga,
-		   $jmlHalaman,
-		   $waktuMain;
+		   $harga;
 
-	
-	public function __construct($judul , $penulis , $penerbit , $harga = 0, $jmlHalaman = 0, $waktuMain = 0){
+	// ===================================================================	   
+	public function __construct($judul ="judul" , $penulis = "penulis" , $penerbit = "penerbit", $harga = 0){
 		$this->judul = $judul;
 		$this->penulis = $penulis;
 		$this->penerbit = $penerbit;
 		$this->harga = $harga;
-		$this->jmlHalaman = $jmlHalaman;
-		$this->waktuMain = $waktuMain;
 	}
+	// ===================================================================
 	public function getLabel(){
 		return "$this->penulis,$this->penerbit";
 	}
+	// ===================================================================
 	public function getInfoProduk(){
 		$str = "{$this->judul} | {$this->getLabel()}(Rp.{$this->harga})";
 		return $str;
 	}
 
 }
+// ===================================================================
 class Komik extends Produk{
+	// ===================================================================
+	public $jmlHalaman;
+	// ===================================================================
+	public function __construct($judul ="judul" , $penulis = "penulis" , $penerbit = "penerbit", $harga = 0,$jmlHalaman = 0){
+
+		parent::__construct($judul , $penulis, $penerbit, $harga);
+		$this->jmlHalaman = $jmlHalaman;
+	}
+	// ===================================================================
 	public function getInfoProduk(){
-		$str = "komik :{$this->judul} | {$this->getLabel()}(Rp.{$this->harga})- {$this->jmlHalaman} Halaman.";
+		$str = "komik :". parent::getInfoProduk()."- {$this->jmlHalaman} Halaman.";
 		return $str;
 	}
 
 }
+// ===================================================================
 class game extends Produk{
+	// ===================================================================
+	public $waktuMain;
+	// ===================================================================
+	public function __construct($judul ="judul" , $penulis = "penulis" , $penerbit = "penerbit", $harga = 0,$waktuMain = 0){
+
+		parent::__construct($judul , $penulis, $penerbit, $harga);
+		$this->waktuMain = $waktuMain;
+	}
+	// ===================================================================
 	public function getInfoProduk(){
-		$str = "game :{$this->judul} | {$this->getLabel()}(Rp.{$this->harga})- {$this->waktuMain} jam.";
+		$str = "game :". parent::getInfoProduk()."- {$this->waktuMain} jam.";
 		return $str;
 	}
 }
 
-
+// ===================================================================
 class CetakInfoProduk{
 	public function cetak( Produk $Produk ){
 		$str = "{$Produk->judul} | {$Produk->getLabel()}(Rp.{$Produk->harga})"; 
 		return $str;
 	}
 }
+// ===================================================================
+$Produk3 = new komik("naruto","masashi kishimoto","jump",30000 , 100);
 
-$Produk3 = new komik("naruto","masashi kishimoto","jump",30000 , 100,0, "komik");
-
-$Produk4 = new game("uncharted","neil druckman","sony computer",2530000 ,0,50, "game");
+$Produk4 = new game("uncharted","neil druckman","sony computer",2530000 ,50);
 
 
 // echo "komik : " .$Produk3->getLabel();
